@@ -1,6 +1,4 @@
 /** Inicio de aplicacion */
-
-// ambient variables
 import dotenv from "dotenv";
 dotenv.config();
 

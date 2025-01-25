@@ -1,20 +1,21 @@
-import mongoose from "mongoose";  // Usar import si estás usando TypeScript o ES6
-
-const uri = `${process.env.MONGO_URI}`;
-
-// Función para conectarse a MongoDB usando async/await
+import mongoose from "mongoose";
+const uri = `${process.env.MONGO_URI}?authSource=admin`;
 async function connectToDatabase() {
   try {
-    await mongoose.connect(uri, {
-       autoIndex: true,
-    });
+    await mongoose.connect(uri, {    
+        auth: {
+          username: process.env.MONGO_USERNAME,  
+          password: process.env.MONGO_PASSWORD,  
+        }
+    }); 
+ 
     console.log("Connected to MongoDB");
   } catch (err: any) {
-    console.error("Failed to connect to MongoDB");
-    console.error(err.message);
+    console.error(`Failed to connect to MongoDB : ${err}`);
   }
 }
+connectToDatabase();  
+export default mongoose.connection;  
 
-connectToDatabase();  // Llamada a la función de conexión
-
-export default mongoose.connection;  // Exporta la conexión de Mongoose
+// MySQL
+// Firebase 

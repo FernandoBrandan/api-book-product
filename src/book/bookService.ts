@@ -7,6 +7,8 @@ import { categoryModel } from "../category/categoryModel";
 export class BookService {
   static getBooks = async () => {
     try {
+      console.log("llega???");
+      
       const items = await bookModel.find();
       if (Array.isArray(items) && items.length === 0) return { status: "error", statuscode: 404, message: "No books found" };
       return { status: "success", statuscode: 200, data: items };
@@ -52,4 +54,32 @@ export class BookService {
       throw error;
     }
   };
+
+  static checkIfProductsExist = async (productIds: string[]): Promise<boolean> => {
+      const products = await bookModel.find({ '_id': { $in: productIds } });
+      return products.length === productIds.length;  
+      // Si el número de productos encontrados es igual al número de IDs enviados    
+  };
+
+  static updateProductStock = async (updates: { productId: string, quantity: number }[]): Promise<boolean> => {
+    try {
+      for (const update of updates) {
+        const product = await bookModel.findById(update.productId);
+
+       // if (!product || product.stock < update.quantity) {
+       //   throw new Error(`Stock insuficiente para el producto ${update.productId}`);
+       // }
+
+       // Restar el stock
+       // product.stock -= update.quantity;
+       // await product.save();
+      }
+      return true;
+    } catch (error) {
+      console.error('Error al actualizar el stock:', error);
+      return false;
+    }
+  }
+
+
 }
