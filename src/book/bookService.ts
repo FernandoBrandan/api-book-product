@@ -6,9 +6,7 @@ import { categoryModel } from "../category/categoryModel";
 
 export class BookService {
   static getBooks = async () => {
-    try {
-      console.log("llega???");
-      
+    try { 
       const items = await bookModel.find();
       if (Array.isArray(items) && items.length === 0) return { status: "error", statuscode: 404, message: "No books found" };
       return { status: "success", statuscode: 200, data: items };

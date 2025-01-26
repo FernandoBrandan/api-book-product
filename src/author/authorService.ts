@@ -5,7 +5,7 @@ export class AuthorService {
   static getAuthors = async () => {
     try {
       const items = await authorModel.find();
-      if (!items || items.length === 0) return { status: "error", statuscode: 404, message: "No authors found" };
+      if (Array.isArray(items) && items.length === 0) return { status: "error", statuscode: 404, message: "No authors found" };
       return { status: "success", statuscode: 200, data: items };
     } catch (error) {
       throw error;

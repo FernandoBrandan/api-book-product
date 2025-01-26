@@ -30,7 +30,7 @@ export const getBook = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-export const createBook = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createBook = async (req: Request, res: Response, next: NextFunction)  => {
   try {
     const newBook: IBook = req.body;
     const validated = bookValidateHandler(newBook);

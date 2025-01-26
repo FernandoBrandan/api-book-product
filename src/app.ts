@@ -57,11 +57,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 /****************************************************** */
 import usersRouter from "./book/bookRoute";
-app.use("/api", usersRouter);
+app.use("/api/library", usersRouter);
 import authorRouter from "./author/authorRoute";
-app.use("/api", authorRouter);
+app.use("/api/library", authorRouter);
 import categoryRouter from "./category/categoryRoute";
-app.use("/api", categoryRouter); 
+app.use("/api/library", categoryRouter); 
 /****************************************************** */
 import errorHandler from "./middleware/errorHandler";
 app.use(errorHandler);

@@ -8,8 +8,7 @@ async function connectToDatabase() {
           password: process.env.MONGO_PASSWORD,  
         }
     }); 
- 
-    console.log("Connected to MongoDB");
+    console.log("Connected to MongoDB"); 
   } catch (err: any) {
     console.error(`Failed to connect to MongoDB : ${err}`);
   }

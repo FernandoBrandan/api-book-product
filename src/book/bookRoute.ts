@@ -2,37 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import { getBooks, getBook, createBook, updateBook, deleteBook } from "./bookController";
-
-/**
- * @swagger
- * /books:
- *   get:
- *     summary: Obtiene una lista de libros
- *     description: Devuelve una lista de libros con información básica como título, autor y año de publicación.
- *     responses:
- *       200:
- *         description: Lista de libros
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                     example: 1
- *                   title:
- *                     type: string
- *                     example: "Clean Code"
- *                   author:
- *                     type: string
- *                     example: "Robert C. Martin"
- *                   year:
- *                     type: integer
- *                     example: 2008
- */
-
+ 
 router.get("/books", getBooks);
 router.get("/books/:serie", getBook);
 router.post("/books", createBook);
