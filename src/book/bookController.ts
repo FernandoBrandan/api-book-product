@@ -3,7 +3,7 @@ import { IBook } from "./bookInterface";
 import { BookService } from "./bookService";
 import { bookValidateHandler } from "./bookValidate";
 
-export const getBooks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getBooks = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const books = await BookService.getBooks();
     if (books.status == "error") {

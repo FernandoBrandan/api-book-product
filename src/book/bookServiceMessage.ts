@@ -24,6 +24,7 @@ export const apiBooksService = {
     console.log('Esperando mensajes en la cola', QUEUE_NAME);
 
     channel.consume(QUEUE_NAME, async (msg) => {
+      console.log(msg);      
       if (msg) {
         const { productIds } = JSON.parse(msg.content.toString());
 

@@ -17,8 +17,8 @@ export class BookService {
 
   static getBook = async (serie: string) => {
     try {
-      const item = await bookModel.find({ serie: serie });
-      if (Array.isArray(item) && item.length === 0) return { status: "error", statuscode: 404, message: "Book not found" };
+      const item = await bookModel.find({ serie: Number(serie) });
+      if (!item) return { status: "error", statuscode: 404, message: "Book not found" };
       return { status: "success", statuscode: 200, data: item };
     } catch (error) {
       throw error;
@@ -60,6 +60,8 @@ export class BookService {
   };
 
   static updateProductStock = async (updates: { productId: string, quantity: number }[]): Promise<boolean> => {
+    console.log("updateProductStock", updates);
+    
     try {
       for (const update of updates) {
         const product = await bookModel.findById(update.productId);

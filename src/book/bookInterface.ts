@@ -12,26 +12,3 @@ interface IBook {
 }
 
 export { IBook };
-
-/**
- 
-"serie" : "",
-"title" : "",
-"author" : "",
-"category" : "",
-"publicationDate" : "",
-"pagesNumber" : "",
-"synopsis" : ""
-
-
-{
-  "serie" : "123asd",
-  "title" : "harry potter",
-  "author" : "Escritora",
-  "category" : "Terror",
-  "publicationDate" : "12-12-1993",
-  "pagesNumber" : "122",
- "synopsis" : "Mucho texto" 
- }
-
-  */

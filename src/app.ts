@@ -23,7 +23,7 @@ app.use(helmet(
   }
 ));
 /****************************************************** */
-// Rate Limit
+// Rate Limit - Se comenta centralizado en el apigate
 import rateLimit from "express-rate-limit";
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000,
