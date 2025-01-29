@@ -35,7 +35,7 @@ const limiter = rateLimit({
   statusCode: 429,
 });
 app.use(limiter);
-/****************************************************** */  
+/****************************************************** */
 import cors from "cors";
 const corsOptions = {
   origin: process.env.NODE_ENV === "development"
@@ -50,18 +50,21 @@ if (process.env.NODE_ENV === "development") {
   app.use(cors());
 } else {
   app.use(cors(corsOptions));
-}  
+}
 /****************************************************** */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+/** ************************ */
+import { consumeMessages } from "./messageQueue/bookServiceMessage"
+consumeMessages()
 /****************************************************** */
 import usersRouter from "./book/bookRoute";
 app.use("/api/library", usersRouter);
 import authorRouter from "./author/authorRoute";
 app.use("/api/library", authorRouter);
 import categoryRouter from "./category/categoryRoute";
-app.use("/api/library", categoryRouter); 
+app.use("/api/library", categoryRouter);
 /****************************************************** */
 import errorHandler from "./middleware/errorHandler";
 app.use(errorHandler);
