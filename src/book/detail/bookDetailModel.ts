@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import { IBookDetail } from "./bookDetailInterface";
 
-const bookDetailSchema = new Schema<IBookDetail>({
+const bookDetailSchema = new Schema<IBookDetail>({  
     book: {
         type: Schema.Types.ObjectId,
         ref: "Book",

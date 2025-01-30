@@ -2,11 +2,21 @@ import { isValidObjectId } from "mongoose";
 import { IBook } from "./bookInterface";
 import { bookModel } from "./bookModel";
 import { authorModel } from "../author/authorModel";
-import { categoryModel } from "../category/categoryModel"; 
+import { categoryModel } from "../category/categoryModel";
+
+import { bookDetailModel } from "./detail/bookDetailModel";
+import { equal, number } from "joi";
+
+
+interface items {
+  itemId: Number;
+  price: Number;
+  quantity: Number;
+} 
 
 export class BookService {
   static getBooks = async () => {
-    try { 
+    try {
       const items = await bookModel.find();
       if (Array.isArray(items) && items.length === 0) return { status: "error", statuscode: 404, message: "No books found" };
       return { status: "success", statuscode: 200, data: items };
@@ -52,27 +62,60 @@ export class BookService {
       throw error;
     }
   };
-
-  static checkIfProductsExist = async (productIds: string[]): Promise<boolean> => {
-      const products = await bookModel.find({ '_id': { $in: productIds } });
-      return products.length === productIds.length;  
-      // Si el número de productos encontrados es igual al número de IDs enviados    
-  };
+  
+  /**     
+  db.bookDetail.updateOne(    { _id: ObjectId("679afc20552c555880e9496b") },    { $set: { stock: 0, isAvailable: false } }  )  
+  */
+  
+   /**
+   * Metods message queue
+   */ 
+   static async checkIfProductsExist(items: items[]): Promise<{ valid: boolean; message: string }> {
+    const errors: string[] = [];
+    
+    for (const item of items) {
+      const book = await bookModel.findOne({ 'serie': item.itemId });
+      if (!book) {
+        errors.push(`El producto con ID ${item.itemId} no existe`);
+        continue;
+      }  
+      // Buscar detalles del libro (stock, precio, etc.)
+      const bookDetail = await bookDetailModel.findOne({ book: book._id });
+      if (!bookDetail) {
+        errors.push(`No se encontró información de stock para el producto con ID ${item.itemId}`);
+        continue;
+      } 
+      const stock: Number = Number(bookDetail.stock);      
+      if (stock === 0) {
+        errors.push(`No hay stock para el producto con ID ${item.itemId}. Se solicitaron ${item.quantity} unidades.`);
+        continue;
+      }
+      if (stock < item.quantity) {
+        errors.push(`No hay suficiente stock para el producto con ID ${item.itemId}. Se solicitaron ${item.quantity} unidades, pero solo hay ${stock} disponibles.`);
+        continue;
+      }
+    }
+    if (errors.length > 0) {
+      return { valid: false, message: errors.join('\n') };
+    }
+    return { valid: true, message: 'Todos los productos existen y tienen stock suficiente' };
+  }
+    
 
   static updateProductStock = async (updates: { productId: string, quantity: number }[]): Promise<boolean> => {
     console.log("updateProductStock", updates);
-    
+
     try {
       for (const update of updates) {
         const product = await bookModel.findById(update.productId);
 
-       // if (!product || product.stock < update.quantity) {
-       //   throw new Error(`Stock insuficiente para el producto ${update.productId}`);
-       // }
+        // if (!product || product.stock < update.quantity) {
+        //   throw new Error(`Stock insuficiente para el producto ${update.productId}`);
+        // }
 
-       // Restar el stock
-       // product.stock -= update.quantity;
-       // await product.save();
+        // Restar el stock
+        // product.stock -= update.quantity;
+        // await product.save();
       }
       return true;
     } catch (error) {
