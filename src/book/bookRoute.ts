@@ -1,14 +1,13 @@
-import { Router } from "express";
-const router = Router();
+import { Router } from 'express'
 
-import { getBooks, getBook, createBook, updateBook, deleteBook } from "./bookController";
+import { getBooks, getBook, createBook, updateBook, deleteBook } from './bookController'
+const router = Router()
 
-
-router.get("/books", getBooks);
-router.get("/books/:serie", getBook);
-router.post("/books",  createBook); 
-router.put("/books/:serie", updateBook);
-router.delete("/books/:serie", deleteBook);
+router.get('/books', getBooks)
+router.get('/books/:serie', getBook)
+router.post('/books', createBook)
+router.put('/books/:serie', updateBook)
+router.delete('/books/:serie', deleteBook)
 /**
 /   Additional endpoints for relationships between models
 GET /books/search?title={title} - Buscar libros por título
@@ -16,10 +15,7 @@ GET /books/filter?category={category_id} - Filtrar libros por categoría
 GET /books/filter?author={author_id} - Filtrar libros por autor
 */
 
-export default router;
-
-
-
+export default router
 
 /**
  *

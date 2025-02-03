@@ -1,16 +1,16 @@
-import { Router } from "express";
-const router = Router();
+import { Router } from 'express'
 
-import { createCategory, deleteCategory, getCategory, getCategories, updateCategory } from "./categoryController";
-router.get("/categories/", getCategories); // categories
-router.get("/categories/:id", getCategory);
-router.post("/categories/", createCategory);
-router.put("/categories/:id", updateCategory);
-router.delete("/categories/:id", deleteCategory);
-export default router;
+import { createCategory, deleteCategory, getCategory, getCategories, updateCategory } from './categoryController'
+const router = Router()
+router.get('/categories/', getCategories) // categories
+router.get('/categories/:id', getCategory)
+router.post('/categories/', createCategory)
+router.put('/categories/:id', updateCategory)
+router.delete('/categories/:id', deleteCategory)
+export default router
 
 /**
- * 
+ *
  * Endpoints para Category (Categoría)
 GET /categories - Listar todas las categorías
 GET /categories/{id} - Obtener una categoría específica por su ID

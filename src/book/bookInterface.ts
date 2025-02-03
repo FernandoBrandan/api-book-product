@@ -1,8 +1,9 @@
-import { Types } from "mongoose";
+import { Types } from 'mongoose'
+import { IBookDetail } from '../bookDetail/bookDetailInterface'
 
-interface IBook {
-  _id?: string;
+export interface IBook {
   serie: number;
+  bookDetail: IBookDetail;
   title: string;
   author: Types.ObjectId;
   category: Types.ObjectId;
@@ -10,5 +11,3 @@ interface IBook {
   pagesNumber?: number;
   synopsis?: string;
 }
-
-export { IBook };

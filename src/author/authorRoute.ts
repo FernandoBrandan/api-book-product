@@ -1,15 +1,14 @@
-import { Router } from "express";
-const router = Router();
+import { Router } from 'express'
 
-import { getAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } from "./authorController";
-router.get("/authors", getAuthors); 
-router.get("/authors/:id", getAuthor); 
-router.post("/authors", createAuthor); 
-router.put("/authors/:id", updateAuthor); 
-router.delete("/authors/:id", deleteAuthor); 
- 
+import { getAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } from './authorController'
+const router = Router()
+router.get('/authors', getAuthors)
+router.get('/authors/:id', getAuthor)
+router.post('/authors', createAuthor)
+router.put('/authors/:id', updateAuthor)
+router.delete('/authors/:id', deleteAuthor)
 
-export default router;
+export default router
 
 /**
  * TODO: search endpoint ??

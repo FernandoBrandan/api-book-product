@@ -1,6 +1,6 @@
-import { Schema, model } from "mongoose";
-import { IBook } from "./bookInterface";
-  
+import { Schema, model } from 'mongoose'
+import { IBook } from './bookInterface'
+
 const bookSchema = new Schema<IBook>(
   {
     serie: {
@@ -8,39 +8,44 @@ const bookSchema = new Schema<IBook>(
       min: 999,
       max: 999999999,
       required: true,
-      unique: true,
+      unique: true
+    },
+    bookDetail: {
+      type: Schema.Types.ObjectId,
+      ref: 'BookDetail',
+      required: false
     },
     title: {
       type: String,
       required: true,
-      trim: true,
+      trim: true
     },
     author: {
       type: Schema.Types.ObjectId,
-      ref: "Author",
-      required: false,
+      ref: 'Author',
+      required: false
     },
     category: {
       type: Schema.Types.ObjectId,
-      ref: "Category",
-      required: false,
+      ref: 'Category',
+      required: false
     },
     publicationDate: {
-      type: Date,
+      type: Date
     },
     pagesNumber: {
-      type: Number,
+      type: Number
     },
     synopsis: {
       type: String,
-      trim: true,
-    },
+      trim: true
+    }
   },
   {
     timestamps: true,
-    versionKey: false,
+    versionKey: false
   }
-);
+)
 
-const bookModel = model<IBook>("Book", bookSchema);
-export { bookModel };
+const bookModel = model<IBook>('Book', bookSchema)
+export { bookModel }

@@ -1,12 +1,12 @@
-import dotenv from "dotenv";
-dotenv.config();
-import app from "./app";
-import "./config/database";
-import "./config/swagger";
-const port = process.env.PORT || 4001;
+import dotenv from 'dotenv'
+import app from './app'
+import './config/database'
+import './config/swagger'
+dotenv.config()
+const port = process.env.PORT || 4001
 app.listen(port, () => {
-  console.log(`apiBooks - Server listen on port http://localhost:${port}`);
-});
+  console.log(`apiBooks - Server listen on port http://localhost:${port}`)
+})
 
 /**
  * ********************************************************************************************************************
@@ -25,4 +25,3 @@ app.listen(port, () => {
 // https.createServer(options, app).listen(port, () => {
 //   console.log(`Server listen on port https://localhost:${port}`);
 // });
- 

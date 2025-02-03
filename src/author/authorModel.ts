@@ -1,5 +1,5 @@
-import { Schema, model } from "mongoose";
-import { IAuthor } from "./authorInterface";
+import { Schema, model } from 'mongoose'
+import { IAuthor } from './authorInterface'
 
 const authorSchema = new Schema<IAuthor>({
   author_id: {
@@ -7,21 +7,21 @@ const authorSchema = new Schema<IAuthor>({
     min: 999,
     max: 999999,
     required: true,
-    unique: true,
+    unique: true
   },
   name: {
     type: String,
     required: true,
-    trim: true,
+    trim: true
   },
   birthDate: {
-    type: Date,
+    type: Date
   },
   nationality: {
     type: String,
-    trim: true,
-  },
-});
+    trim: true
+  }
+})
 
-const authorModel = model<IAuthor>("Author", authorSchema);
-export { authorModel };
+const authorModel = model<IAuthor>('Author', authorSchema)
+export { authorModel }

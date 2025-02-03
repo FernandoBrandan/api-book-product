@@ -1,26 +1,26 @@
-import app from "../app";
+import app from '../app'
 
-import swaggerJsdoc from "swagger-jsdoc";
-import swaggerUi from "swagger-ui-express";
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 
 const swaggerOptions = {
   definition: {
-    openapi: "3.0.0",
+    openapi: '3.0.0',
     info: {
-      title: "API Bookstore",
-      version: "1.0.0",
-      description: "API Bookstore",
+      title: 'API Bookstore',
+      version: '1.0.0',
+      description: 'API Bookstore'
     },
     servers: [
       {
-        url: "http://localhost:3000",
-      },
-    ],
+        url: 'http://localhost:3000'
+      }
+    ]
   },
-  apis: ["./src/book/bookRoute.ts"],
-};
+  apis: ['./src/book/bookRoute.ts']
+}
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerJsdoc(swaggerOptions)))
 
 /**
  *
