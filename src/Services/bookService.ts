@@ -1,9 +1,11 @@
 import { isValidObjectId } from 'mongoose'
-import { IBook } from './bookInterface'
-import { bookModel } from './bookModel'
-import { authorModel } from '../author/authorModel'
-import { categoryModel } from '../category/categoryModel'
-import { bookDetailModel } from '../bookDetail/bookDetailModel'
+import { IBook } from '../interfaces/bookInterface'
+import { bookModel } from '../models/bookModel'
+import { authorModel } from '../models/authorModel'
+import { categoryModel } from '../models/categoryModel'
+import { bookDetailModel } from '../models/bookDetailModel'
+
+import { ClientError } from '../utils/errors'
 
 interface items {
   itemId: number;
@@ -14,36 +16,41 @@ interface items {
 export class BookService {
   static getBooks = async () => {
     const items = await bookModel.find().populate('bookDetail')
-    if (Array.isArray(items) && items.length === 0) return { status: 'error', statuscode: 404, message: 'No books found' }
-    return { status: 'success', statuscode: 200, data: items }
+    if (Array.isArray(items) && items.length === 0) { throw new ClientError('No books found', 404) }
+    return items
   }
 
   static getBook = async (serie: string) => {
     const item = await bookModel.find({ serie: Number(serie) })
-    if (!item) return { status: 'error', statuscode: 404, message: 'Book not found' }
-    return { status: 'success', statuscode: 200, data: item }
+    if (!item) { throw new ClientError('Book not found', 404) }
+    return item
   }
 
   static postBook = async (book: IBook) => {
     if (!isValidObjectId(book.author) || !isValidObjectId(book.category)) {
-      return { status: 'error', statuscode: 400, message: 'Author or Category not found or invalidate id' }
+      throw new ClientError('Author or Category not found or invalidate id', 404)
     }
+
     const existingAuthor = await authorModel.findOne({ _id: book.author })
-    if (!existingAuthor) return { status: 'error', statuscode: 400, message: 'Author not found' }
+    if (!existingAuthor) { throw new ClientError('Author not found', 404) }
+
     const existingCategory = await categoryModel.findOne({ _id: book.category })
-    if (!existingCategory) return { status: 'error', statuscode: 400, message: 'Category not found' }
+    if (!existingCategory) { throw new ClientError('Category not found', 404) }
+
     const existingBookDetail = await bookDetailModel.findOne({ _id: book.bookDetail })
-    if (!existingBookDetail) return { status: 'error', statuscode: 400, message: 'bookDetail_id not found' }
+    if (!existingBookDetail) { throw new ClientError('bookDetail_id not created', 404) }
+
     const existingBook = await bookModel.findOne({ serie: book.serie })
-    if (existingBook) return { status: 'error', statuscode: 400, message: 'Book already' }
+    if (existingBook) { throw new ClientError('Book already', 404) }
+
     const newBook = await bookModel.create({
       ...book,
       author: existingAuthor._id,
       category: existingCategory._id,
       bookDetail: existingBookDetail._id
     })
-    if (!newBook) return { status: 'error', statuscode: 404, message: 'Book not created' }
-    return { status: 'success', statuscode: 201, data: newBook }
+    if (!newBook) { throw new ClientError('Book not created', 404) }
+    return newBook
   }
 
   /**
@@ -57,6 +64,7 @@ export class BookService {
         errors.push(`El producto con ID ${item.itemId} no existe`)
         continue
       }
+      /**
       if (!book.bookDetail) {
         errors.push(`No se encontró información de stock para el producto con ID ${item.itemId}`)
         continue
@@ -69,6 +77,7 @@ export class BookService {
         errors.push(`No hay suficiente stock para el producto con ID ${item.itemId}. Se solicitaron ${item.quantity} unidades, pero solo hay ${book.bookDetail.stock} disponibles.`)
         continue
       }
+      */
     }
     if (errors.length > 0) {
       return { valid: false, message: errors.join('\n') }
@@ -84,6 +93,7 @@ export class BookService {
         errors.push(`Libro no encontrado. ${item.itemId}.`)
         continue
       }
+      /**
       const result = await bookDetailModel.findOneAndUpdate({ _id: book?.bookDetail._id },
         { $inc: { stock: -item.quantity } },
         { new: true, runValidators: true }
@@ -97,6 +107,7 @@ export class BookService {
         errors.push('No hay suficiente stock.')
         continue
       }
+      */
     }
     if (errors.length > 0) {
       return { valid: false, message: errors.join('\n') }

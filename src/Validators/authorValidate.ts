@@ -1,7 +1,7 @@
 import joi from 'joi'
-import { IAuthor } from './authorInterface'
+import { IAuthor } from '../interfaces/authorInterface'
 
-export const authorValidateHandler = (data: IAuthor) => {
+const authorValidateHandler = (data: IAuthor) => {
   if (!data) return { error: 'Missing data' }
   const authorSchema = joi.object({
     author_id: joi.number().required().min(999).max(999999),
@@ -11,3 +11,4 @@ export const authorValidateHandler = (data: IAuthor) => {
   })
   return authorSchema.validate(data)
 }
+export default authorValidateHandler

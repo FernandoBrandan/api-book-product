@@ -1,7 +1,7 @@
 import { Router } from 'express'
-
-import { createCategory, deleteCategory, getCategory, getCategories, updateCategory } from './categoryController'
+import { createCategory, deleteCategory, getCategory, getCategories, updateCategory } from '../controllers/categoryController'
 const router = Router()
+
 router.get('/categories/', getCategories) // categories
 router.get('/categories/:id', getCategory)
 router.post('/categories/', createCategory)

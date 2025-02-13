@@ -1,32 +1,22 @@
-// Config cache
-// Config cookies
-// Config sesiones
-// paginacion
-
 import express from 'express'
-/** **************************************************** */
-// middleware
-/** **************************************************** */
 import morgan from 'morgan'
-/** **************************************************** */
 import helmet from 'helmet'
-/** **************************************************** */
-// Rate Limit - Se comenta centralizado en el apigate
 import rateLimit from 'express-rate-limit'
-/** **************************************************** */
 import cors from 'cors'
-/** ************************ */
 import { consumeMessages } from './messageQueue/bookServiceMessage'
-/** **************************************************** */
-import bookoRouter from './book/bookRoute'
-import bookDetailRouter from './bookDetail/bookDetailRoute'
-import authorRouter from './author/authorRoute'
-import categoryRouter from './category/categoryRoute'
-/** **************************************************** */
+import bookoRouter from './routes/bookRoute'
+import bookDetailRouter from './routes/bookDetailRoute'
+import authorRouter from './routes/authorRoute'
+import categoryRouter from './routes/categoryRoute'
 import errorHandler from './middleware/errorHandler'
+/** **************************************************** */
 const app = express()
-// eslint-disable-next-line @typescript-eslint/no-unused-expressions
-process.env.NODE_ENV === 'development' ? app?.use(morgan('dev')) : app?.use(morgan('combined'))
+
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+} else {
+  app.use(morgan('combined'))
+}
 app.use(helmet(
   {
     dnsPrefetchControl: false,
@@ -51,12 +41,11 @@ const corsOptions = {
   origin: process.env.NODE_ENV === 'development'
     ? '*'
     : 'https://your-production-domain.com',
-  methods: ['GET', 'POST'], // Permite solo métodos HTTP específicos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Permite solo encabezados específicos
-  credentials: true // Permite el envío de cookies o credenciales
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
 }
 if (process.env.NODE_ENV === 'development') {
-  console.log('cors !!!!!!!!!!!!!1')
   app.use(cors())
 } else {
   app.use(cors(corsOptions))
@@ -72,5 +61,4 @@ app.use('/api/library', authorRouter)
 app.use('/api/library', categoryRouter)
 app.use(errorHandler)
 /** **************************************************** */
-
 export default app

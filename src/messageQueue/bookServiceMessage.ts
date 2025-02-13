@@ -1,6 +1,6 @@
 // consumer.ts
 import amqp from 'amqplib'
-import { BookService } from '../book/bookService'
+import { BookService } from '../Services/bookService'
 const RABBITMQ_URL = process.env.RABBITMQ_URL as string
 const QUEUE = 'API-LIBRARY'
 const ERROR_QUEUE = 'ERROR_QUEUE'

@@ -1,8 +1,9 @@
+/* eslint-disable import/first */
 import dotenv from 'dotenv'
+dotenv.config()
 import app from './app'
 import './config/database'
 import './config/swagger'
-dotenv.config()
 const port = process.env.PORT || 4001
 app.listen(port, () => {
   console.log(`apiBooks - Server listen on port http://localhost:${port}`)

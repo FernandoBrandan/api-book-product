@@ -1,11 +1,12 @@
 import { Router } from 'express'
+import { getBooks, getBook, createBook, updateBook, deleteBook } from '../controllers/bookController'
+import validateSchema from '../utils/validateSchema'
 
-import { getBooks, getBook, createBook, updateBook, deleteBook } from './bookController'
 const router = Router()
 
 router.get('/books', getBooks)
 router.get('/books/:serie', getBook)
-router.post('/books', createBook)
+router.post('/books', validateSchema, createBook)
 router.put('/books/:serie', updateBook)
 router.delete('/books/:serie', deleteBook)
 /**

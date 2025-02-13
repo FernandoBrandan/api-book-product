@@ -1,7 +1,7 @@
 import joi from 'joi'
-import { ICategory } from './categoryInterface'
+import { ICategory } from '../interfaces/categoryInterface'
 
-export const categoryValidateHandler = (data: ICategory) => {
+const categoryValidateHandler = (data: ICategory) => {
   if (!data) return { error: 'Missing data' }
   const categorySchema = joi.object({
     category_id: joi.number().min(999).max(999999).required(),
@@ -9,3 +9,4 @@ export const categoryValidateHandler = (data: ICategory) => {
   })
   return categorySchema.validate(data)
 }
+export default categoryValidateHandler

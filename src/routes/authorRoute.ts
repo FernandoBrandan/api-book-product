@@ -1,7 +1,7 @@
 import { Router } from 'express'
-
-import { getAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } from './authorController'
+import { getAuthors, getAuthor, createAuthor, updateAuthor, deleteAuthor } from '../controllers/authorController'
 const router = Router()
+
 router.get('/authors', getAuthors)
 router.get('/authors/:id', getAuthor)
 router.post('/authors', createAuthor)
